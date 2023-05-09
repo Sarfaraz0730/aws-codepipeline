@@ -25,7 +25,7 @@ app.post("/users/", (req, res)=>{
    
 })
 
-
+console.log("waah kya scene hai")
 
 app.put("/users/", (req, res)=>{
     res.json({"message":`Update  user with id ${req.params.id}`})
