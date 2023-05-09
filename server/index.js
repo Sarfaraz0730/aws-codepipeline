@@ -1,6 +1,5 @@
 const http = require("http")
 const express = require("express")
-const MongoClient = require("mongodb");
 const bodyParser = require('body-parser');
 const cors = require('cors');
 
@@ -13,15 +12,7 @@ app.use(bodyParser.json());
 
 const port = 8001;
 
-const url = 'mongodb://localhost:27017/myDB';
-// const dbname = "conFusion";
-MongoClient.connect(url, (err,client)=>{
-    if(!err) {
-        console.log("successful connection with the server");  
-    }
-    else
-        console.log("Error in the connectivity");
-})
+
 
 
 
