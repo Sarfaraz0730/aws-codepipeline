@@ -1,23 +1,42 @@
-const http = require("http")
 const express = require("express")
-const bodyParser = require('body-parser');
-const cors = require('cors');
+
+const app = express()
 
 
-const app = express();
-app.use(cors());
+const port = 8000
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.get("/", (req, res)=>{
+    res.json({"message":"This is Home page"})
+   
+})
 
-const port = 8001;
+app.get("/users", (req, res)=>{
+    res.json({"message":"get all the users"})
+   
+})
+
+app.get("/users/:id", (req, res)=>{
+    res.json({"message":`get user with id ${req.params.id}`})
+   
+})
+
+app.post("/users/", (req, res)=>{
+    res.json({"message":`create a new user`})
+   
+})
 
 
 
+app.put("/users/", (req, res)=>{
+    res.json({"message":`Update  user with id ${req.params.id}`})
+   
+})
 
+app.delete("/users/", (req, res)=>{
+    res.json({"message":`Delete user with id ${req.params.id}`})
+   
+})
 
-
-app.get('/', (req, res) => {
-    res.send('Hello World, from express');
-});
-app.listen(port, () => console.log(`Hello world app listening on port ${port}!`))
+app.listen(port, ()=>{
+    console.log(`Listening on port ${port}`)
+})
