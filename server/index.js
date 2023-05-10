@@ -22,6 +22,7 @@ app.get("/users/:id", (req, res)=>{
 
 app.post("/users/", (req, res)=>{
     res.json({"message":`create a new user`})
+    console.log("Hello world")
    
 })
 
