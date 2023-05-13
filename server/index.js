@@ -1,42 +1,34 @@
-const express = require("express")
+const express = require("express");
+const cors = require("cors");
+const uploadImage = require("./uploadImage.js");
+const aws_upload = require("./uploadImage_S3.js")
+const app = express();
+const port = 5000;
 
-const app = express()
+app.use(cors());
+app.use(express.json({ limit: "25mb" }));
+app.use(express.urlencoded({ limit: "25mb" }));
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  next();
+});
 
-
-const port = 8000
-
-app.get("/", (req, res)=>{
-    res.json({"message":"This is Home page"})
-   
-})
-
-app.get("/users", (req, res)=>{
-    res.json({"message":"get all the users"})
-   
-})
-
-app.get("/users/:id", (req, res)=>{
-    res.json({"message":`get user with id ${req.params.id}`})
-   
-})
-
-app.post("/users/", (req, res)=>{
-    res.json({"message":`create a new user`})
-    console.log("Hello world")
-   
-})
+app.post("/upload_aws", (req, res) => {
+    console.log("image upload process started")
+  aws_upload(req.body.image)
+    .then((url) => res.send(`Image is uploaded and their url ${url}`))
+    .catch((err) => res.status(500).send(`Image is not uploaded  due to this error ${err}`));
 
 
-app.put("/users/", (req, res)=>{
-    res.json({"message":`Update  user with id ${req.params.id}`})
-   
-})
+});
 
-app.delete("/users/", (req, res)=>{
-    res.json({"message":`Delete user with id ${req.params.id}`})
-   
-})
+app.post("/uploadMultipleImages", (req, res) => {
+  uploadImage
+    .uploadMultipleImages(req.body.images)
+    .then((urls) => res.send(urls))
+    .catch((err) => res.status(500).send(err));
+});
 
-app.listen(port, ()=>{
-    console.log(`Listening on port ${port}`)
-})
+app.listen(port, () => {
+  console.log(`nodemailerProject is listening at http://localhost:${port}`);
+});
